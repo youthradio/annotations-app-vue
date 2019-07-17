@@ -21,10 +21,10 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// .container {
+//   margin: 0 auto;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// }
 </style>
