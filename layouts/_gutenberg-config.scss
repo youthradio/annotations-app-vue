@@ -10,7 +10,7 @@
    $custom-font-body: 'Assistant', sans-serif; // [ "Libre Baskerville", Georgia, serif ]
    $custom-font-headings: 'Roboto Mono', sans-serif;
    // Paragraph indenting
-   $paragraph-indent: false; // [ true / false ]
+   $paragraph-indent: true; // [ true / false ]
    
    // Base sizes
    $base-font-size: 100 !default; // In %. Also used for mobile. Number only, no units.
