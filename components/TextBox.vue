@@ -1,6 +1,5 @@
 <template>
-  <div
-    role="article"
+  <article
     class="a-text"
     v-html="getHTMLHighlights"
   />

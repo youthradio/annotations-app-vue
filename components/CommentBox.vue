@@ -33,7 +33,9 @@ export default {
 <style lang="scss">
 
 .box {
-  // position: relative;
   border: 2px solid black;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: 1rem;
 }
 </style>

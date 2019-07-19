@@ -5,7 +5,10 @@
       :comments-data="commentsData"
       :text-data="textData"
     />
-    <div role="aside">
+    <div
+      class="side"
+      role="comments"
+    >
       <CommentBox
         v-for="(comment,ind) in commentsData"
         :key="`comment-item-${ind}`"
@@ -42,4 +45,13 @@ export default {
 @import '~@/css/vars';
 @import '~@/css/base';
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.side {
+  display: flex;
+  flex-direction: column;
+}
 </style>
