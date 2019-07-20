@@ -21,6 +21,10 @@ export default {
       type: String,
       default: null,
       require: true
+    },
+    selectedComment: {
+      type: Number,
+      default: null
     }
   },
   data () {
