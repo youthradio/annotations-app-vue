@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     commentsData () {
-      return COMMENTS_DATA.comments
+      return COMMENTS_DATA.comments.sort((a, b) => a.position - b.position)
     },
     textData () {
       return COMMENTS_DATA.text

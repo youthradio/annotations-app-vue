@@ -36,15 +36,21 @@ export default {
       return this.commentsData.map(e => e.quotedFileContent.value)
     },
     getHTMLHighlights () {
-      const html = this.textData
-      const result = this.filteredComments // clean strings to match on regex
+      let htmlOutput = this.textData
+      const commentsList = this.filteredComments // clean strings to match on regex
 
       // const tags = Array.from(matchAll(result, /{([^}]+)\}/g)) // match all contetnt between {}
-      const regex = result.map(e => e.trim()).join('|')
-      console.log(regex)
-      const regexEscaped = regex.replace(/[-/\\^$*+?.()[\]{}]/g, '\\$&') // escape all caracters
-      const rg = new RegExp(regexEscaped, 'gi')
-      return html.replace(rg, '<span class="highlight">$&</span>') // find and replace with higlights
+
+      // const regex = result.map(e => e.trim()).join('|')
+
+      commentsList.map((comment, id) => {
+        // loop over comment matching selection
+        // highlight color depends on selected comment
+        const regexEscaped = comment.replace(/[-/\\^$*+?.()[\]{}]/g, '\\$&') // escape all caracters
+        const regex = new RegExp(regexEscaped, 'gi') // build regex
+        htmlOutput = htmlOutput.replace(regex, `<span class="${this.selectedComment === id ? 'highlight' : 'highlight-ligth'}">$&</span>`) // find and replace with higlights
+      })
+      return htmlOutput
     }
   },
   mounted () {},
@@ -54,12 +60,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-
 .a-text {
   position: relative;
   /deep/ .highlight {
     font-weight: bolder;
-    background-color: rgba(255, 255, 0, 0.8);
+    background-color: rgba(255, 255, 0, 1.0);
+  }
+  /deep/ .highlight-ligth {
+    font-weight: bolder;
+    background-color: rgba(255, 255, 0, 0.3);
   }
 }
 </style>

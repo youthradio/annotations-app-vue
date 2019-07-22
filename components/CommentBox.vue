@@ -58,11 +58,15 @@ export default {
   border: 1px solid rgb(0, 0, 0);
   border: 1px solid rgba(0, 0, 0, 0.3);
   background-color: white;
-  margin-top: auto;
-  margin-bottom: auto;
-  max-width: 18em;
   padding: 1em;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   font-size: $scale / 2 * 1rem;
+  @media screen and (min-width: 64em) {
+    max-width: 18em;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 }
 .selected {
   transform: translate(-1em, -1em);
