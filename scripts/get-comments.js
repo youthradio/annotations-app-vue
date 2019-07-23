@@ -9,25 +9,29 @@ async function getComments () {
   await goot.auth.jwt(credentials)
 
   const comments = await goot.drive.comments(DOC_ID) // get comments data from google DOC_ID
+  const resolvedComments = comments.filter(c => !c.resolved)
   const textWithComments = await goot.drive.export(DOC_ID, 'text/plain') // get plain text data from google DOC_ID
   const text = textWithComments
     .split('[a]') // split text from footer comments starting on [a] characters
     .slice(0, 2) // slice text from comments ref on bottom
     .join('') // remove footer and join remaining content
-  const textCleaned = text.replace(/[\u200B-\u200D\uFEFF]/g, '')
-  const textNoComments = textCleaned.replace(/\[.\]/g, '') // remove comments brackets
-  const textHtml = textNoComments.replace(/^(.*)(\r\n|\r|\n)/gm, '<p>$&</p>') // wrap lines with <p></p> tags
+  const textCleaned = text.replace(/[\u200B-\u200D\uFEFF]/gu, '')
+  const textNoComments = textCleaned.replace(/\[.\]/gu, '') // remove comments brackets
+  const textHtml = textNoComments.replace(/^(.*)(\r\n|\r|\n)/gmu, '<p>$&</p>') // wrap lines with <p></p> tags
 
-  comments.forEach((comment, id) => {
-    const regexEscaped = comment.quotedFileContent.value.replace(/[-/\\^$*+?.()[\]{}]/g, '\\$&') // escape all caracters
-    const regex = new RegExp(regexEscaped, 'gi') // build regex
+  resolvedComments.forEach((comment, id) => {
+    const quotedContentCleaned = comment.quotedFileContent.value.replace(/&quot;/g, '"')
+    const regexEscaped = quotedContentCleaned.replace(/[-/\\^$*+?.()[\]{}]/gu, '\\$&') // escape all caracters
+    const regex = new RegExp(regexEscaped, 'giu') // build regex
     const match = regex.exec(textHtml) // match regex on html text
-    comment.position = match.index // return regex position for ordering comments
+    console.log(match)
+    // comment.position = match.index // return regex position for ordering comments
+    comment.quotedContentCleaned = quotedContentCleaned
   })
   await fsPromises.writeFile(
     './data/data.json',
     JSON.stringify({
-      comments,
+      comments: Array.from(resolvedComments),
       text: textHtml
     }),
     'utf-8'
