@@ -17,3 +17,5 @@ $leading: $baseLineHeight * 1rem !default;
 // Rate of growth for headings
 // I actually like this to be slightly smaller then the leading. Makes for tight headings.
 $scale: 1.414 !default;
+
+$responsiveWidth: 64em;

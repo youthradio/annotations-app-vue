@@ -32,28 +32,26 @@ export default {
     }
   },
   computed: {
-    filteredComments () {
-      return this.commentsData.map(e => e.quotedFileContent.value)
+    quotedContentList () {
+      return this.commentsData.map(e => e.quotedContentCleaned)
     },
     getHTMLHighlights () {
       let htmlOutput = this.textData
-      const commentsList = this.filteredComments // clean strings to match on regex
-
       // const tags = Array.from(matchAll(result, /{([^}]+)\}/g)) // match all contetnt between {}
 
       // const regex = result.map(e => e.trim()).join('|')
 
-      commentsList.map((comment, id) => {
+      this.quotedContentList.map((comment, id) => {
         // loop over comment matching selection
         // highlight color depends on selected comment
         const regexEscaped = comment.replace(/[-/\\^$*+?.()[\]{}]/g, '\\$&') // escape all caracters
-        const regex = new RegExp(regexEscaped, 'gi') // build regex
+        const regex = new RegExp(regexEscaped, 'gui') // build regex
         htmlOutput = htmlOutput.replace(regex, `<span class="${this.selectedComment === id ? 'highlight' : 'highlight-ligth'}">$&</span>`) // find and replace with higlights
       })
       return htmlOutput
     }
   },
-  mounted () {},
+  mounted () { },
   methods: {}
 }
 </script>
@@ -64,7 +62,7 @@ export default {
   position: relative;
   /deep/ .highlight {
     font-weight: bolder;
-    background-color: rgba(255, 255, 0, 1.0);
+    background-color: rgba(255, 255, 0, 1);
   }
   /deep/ .highlight-ligth {
     font-weight: bolder;

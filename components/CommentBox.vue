@@ -57,12 +57,13 @@ export default {
 .box {
   border: 1px solid rgb(0, 0, 0);
   border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
   background-color: white;
   padding: 1em;
   margin-left: 1.5em;
   margin-right: 1.5em;
   font-size: $scale / 2 * 1rem;
-  @media screen and (min-width: 64em) {
+  @media screen and (min-width: $responsiveWidth) {
     max-width: 18em;
     margin-top: auto;
     margin-bottom: auto;

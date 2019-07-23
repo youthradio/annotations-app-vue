@@ -2,7 +2,7 @@
   <div>
     <div class="container">
       <TextBox
-        class="margin"
+        class="textbox"
         :comments-data="commentsData"
         :text-data="textData"
         :selected-comment="selectedComment"
@@ -11,6 +11,9 @@
         class="side"
         role="comments"
       >
+        <header>
+          <h3>Comments</h3>
+        </header>
         <CommentBox
           v-for="(comment,ind) in commentsData"
           :key="`comment-item-${ind}`"
@@ -79,6 +82,24 @@ export default {
 .side {
   display: flex;
   flex-direction: column;
+  position: sticky;
+  bottom: 0px;
+  height: 30vh;
+  overflow-y: scroll;
+  background: white;
+  @media screen and (min-width: $responsiveWidth) {
+    position: inherit;
+    bottom: inherit;
+    height: inherit;
+    overflow-y: inherit;
+    background: inherit;
+  }
+  header{
+    position: sticky;
+    top:0px;
+    background-color: white;
+    z-index: 1000;
+  }
 }
 .arrows-flex {
   display: flex;
