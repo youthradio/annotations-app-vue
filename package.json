@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "nuxt": "^2.0.0",
-    "string.prototype.matchall": "^3.0.1"
+    "string.prototype.matchall": "^3.0.1",
+    "v-runtime-template": "^1.10.0"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",

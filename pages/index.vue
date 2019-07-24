@@ -72,7 +72,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~@/css/fonts';
+// @import '~@/css/fonts';
 @import '~@/css/vars';
 @import '~@/css/base';
 
