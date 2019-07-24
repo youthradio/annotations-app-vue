@@ -2,7 +2,7 @@ const fsPromises = require('fs').promises
 const Gootenberg = require('Gootenberg')
 const credentials = require('./credentials.json')
 
-const DOC_ID = '1fMO25KNG1IVNHbvq5u4JOxFndr1FhN4A_2UMaEm27n0'
+const DOC_ID = '1jZqkCsAWyt-_-8huRhveGoHhpKlmasqKFr1iKKOtqSI'
 
 async function getComments () {
   const goot = new Gootenberg()
@@ -17,22 +17,23 @@ async function getComments () {
     .join('') // remove footer and join remaining content
   const textCleaned = text.replace(/[\u200B-\u200D\uFEFF]/gu, '')
   const textNoComments = textCleaned.replace(/\[.\]/gu, '') // remove comments brackets
-  const textHtml = textNoComments.replace(/^(.*)(\r\n|\r|\n)/gmu, '<p>$&</p>') // wrap lines with <p></p> tags
+    .replace(/\s\s*$/gm, '') // remove trailing spaces before newlines
 
   resolvedComments.forEach((comment, id) => {
     const quotedContentCleaned = comment.quotedFileContent.value.replace(/&quot;/g, '"')
-    const regexEscaped = quotedContentCleaned.replace(/[-/\\^$*+?.()[\]{}]/gu, '\\$&') // escape all caracters
-    const regex = new RegExp(regexEscaped, 'giu') // build regex
-    const match = regex.exec(textHtml) // match regex on html text
-    console.log(match)
-    // comment.position = match.index // return regex position for ordering comments
+    const regexEscaped = quotedContentCleaned.replace(/[-/\\^$*+?.()[\]{}/]/gu, '\\$&') // escape all caracters
+
+    const regex = new RegExp(regexEscaped, 'gim') // build regex
+    const match = regex.exec(textNoComments) // match regex on html text
+
+    comment.position = match.index // return regex position for ordering comments
     comment.quotedContentCleaned = quotedContentCleaned
   })
   await fsPromises.writeFile(
     './data/data.json',
     JSON.stringify({
       comments: Array.from(resolvedComments),
-      text: textHtml
+      text: textNoComments.concat('\n') // add new line to end content
     }),
     'utf-8'
   )
