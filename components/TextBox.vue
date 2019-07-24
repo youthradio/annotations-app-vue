@@ -81,15 +81,15 @@ export default {
 <style lang="scss">
 .a-text {
   position: relative;
-  /deep/ .highlight {
+}
+.highlight {
     display: inline;
     font-weight: bolder;
     background-color: rgba(255, 255, 0, 1);
-  }
-  /deep/ .highlight-ligth {
+}
+.highlight-ligth {
     display: inline;
     font-weight: bolder;
     background-color: rgba(255, 255, 0, 0.3);
-  }
 }
 </style>
