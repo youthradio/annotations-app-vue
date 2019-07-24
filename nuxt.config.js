@@ -3,6 +3,9 @@ export default {
   /*
    ** Headers of the page
    */
+  router: {
+    base: '/annotations-app-vue/'
+  },
   head: {
     title: process.env.npm_package_name || '',
     meta: [
