@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="container">
-      <TextBox
-        class="textbox"
-        :comments-data="commentsData"
-        :text-data="textData"
-        :selected-comment="selectedComment"
-      />
+      <keep-alive>
+        <TextBox
+          class="textbox"
+          :comments-data="commentsData"
+          :text-data="textData"
+          :selected-comment="selectedComment"
+        />
+      </keep-alive>
       <div
         class="side"
         role="comments"
