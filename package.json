@@ -10,7 +10,7 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate && rm -rf _site/* && cp -rf dist/* _site",
+    "generate": "nuxt generate && rm -rf _site/* && cp -R dist/ _site/",
     "get-commments": "node ./scripts/get-comments.js"
   },
   "dependencies": {
@@ -38,6 +38,7 @@
     "node-sass": "^4.12.0",
     "nodemon": "^1.18.9",
     "prettier": "^1.18.2",
+    "resize-observer-polyfill": "^1.5.1",
     "sass-loader": "^7.1.0"
   }
 }

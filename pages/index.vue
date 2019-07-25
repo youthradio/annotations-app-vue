@@ -37,6 +37,7 @@
 
 <script>
 // import matchAll from 'string.prototype.matchall'
+import ResizeObserver from 'resize-observer-polyfill'
 import CommentBox from '~/components/CommentBox'
 import TextBox from '~/components/TextBox'
 import COMMENTS_DATA from '~/data/data.json'
@@ -61,6 +62,19 @@ export default {
   },
   mounted () {
     this.$root.$on('activeComment', this.activeComment)
+
+    const elementRoot = this.$root.$el
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const {
+          height
+        } = entry.contentRect
+        const elementHeight = 'elementHeight:' + height
+        // console.log(elementHeight)
+        parent.postMessage(elementHeight, '*')
+      }
+    })
+    resizeObserver.observe(elementRoot)
   },
   methods: {
     activeComment ({ commentId }) {
