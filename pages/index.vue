@@ -6,6 +6,7 @@
           class="textbox"
           :comments-data="commentsData"
           :text-data="textData"
+          :text-html="textHTML"
           :selected-comment="selectedComment"
         />
       </keep-alive>
@@ -14,7 +15,7 @@
         role="comments"
       >
         <header>
-          <h3>Comments</h3>
+          <h4>Mark-ups</h4>
         </header>
         <CommentBox
           v-for="(comment,ind) in commentsData"
@@ -56,8 +57,8 @@ export default {
     commentsData () {
       return COMMENTS_DATA.comments.sort((a, b) => a.position - b.position)
     },
-    textData () {
-      return COMMENTS_DATA.text
+    textHTML () {
+      return COMMENTS_DATA.textHTML
     }
   },
   mounted () {

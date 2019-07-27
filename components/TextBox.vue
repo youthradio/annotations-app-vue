@@ -18,7 +18,7 @@ export default {
       default: null,
       require: true
     },
-    textData: {
+    textHtml: {
       type: String,
       default: null,
       require: true
@@ -36,23 +36,25 @@ export default {
     getHTMLHighlights () {
       // let htmlOutput = this.textData.replace(/^(.*)(\r\n|\r|\n)/gmiu, '<p>$&</p>') // wrap lines with <p></p> tags
 
-      let htmlOutput = this.textData
+      // let htmlOutput = this.textData
+      let htmlOutput = this.textHtml
       // const tags = Array.from(matchAll(result, /{([^}]+)\}/g)) // match all contetnt between {}
 
       // const regex = result.map(e => e.trim()).join('|')
-
+      console.log(htmlOutput)
       this.commentsData.map((comment, id) => {
         const quotedContent = comment.quotedContentCleaned
         // loop over comment matching selection
         // highlight color depends on selected comment
-        const regexEscaped = quotedContent.replace(/[-/\\^$*+?.()[\]{}]/, '\\$&').replace(/\n/g, '\\n') // escape all caracters
+        const regexEscaped = quotedContent.replace(/\n/gu, '\\n') // escape all caracters
         regexEscaped.split('\\n')
           .forEach((line) => {
-            const regex = new RegExp(line, 'ui') // build regex
+            const escapedline = line.replace(/[-/\\^$*+?.()[\]{}]/gu, '\\$&')
+            const regex = new RegExp(escapedline, 'ui') // build regex
             htmlOutput = htmlOutput.replace(regex, `<span data-cmntid="${id}" @click="hightlightClickEvent" :class="[selectedComment === ${id}? 'highlight': 'highlight-ligth']">$&</span>`) // find and replace with higlights
           })
       })
-      htmlOutput = htmlOutput.replace(/^(.*)(\r\n|\r|\n)/gmiu, '<div class="div-p">$&</div>')
+      // htmlOutput = htmlOutput.replace(/^(.*)(\r\n|\r|\n)/gmiu, '<div class="div-p">$&</div>')
       return `<div>${htmlOutput}</div>`
     }
   },

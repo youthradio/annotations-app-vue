@@ -1,5 +1,7 @@
 const fsPromises = require('fs').promises
 const Gootenberg = require('Gootenberg')
+const marked = require('marked')
+const removeMd = require('remove-markdown')
 const credentials = require('./credentials.json')
 
 const DOC_ID = '1jZqkCsAWyt-_-8huRhveGoHhpKlmasqKFr1iKKOtqSI'
@@ -17,23 +19,47 @@ async function getComments () {
     .join('') // remove footer and join remaining content
   const textCleaned = text.replace(/[\u200B-\u200D\uFEFF]/gu, '')
   const textNoComments = textCleaned.replace(/\[.\]/gu, '') // remove comments brackets
-    .replace(/\s\s*$/gm, '') // remove trailing spaces before newlines
+  const textNoTrailing = removeMd(textNoComments.replace(/\s\s*$/gm, '')) // remove trailing spaces before newlines
 
   resolvedComments.forEach((comment, id) => {
-    const quotedContentCleaned = comment.quotedFileContent.value.replace(/&quot;/g, '"')
-    const regexEscaped = quotedContentCleaned.replace(/[-/\\^$*+?.()[\]{}/]/gu, '\\$&') // escape all caracters
-
+    const quotedContentCleaned = removeMd(comment.quotedFileContent.value.replace(/\s\s*$/gm, ''))
+    const regexEscaped = quotedContentCleaned.replace(/&quot;/g, '"') // remove html
+      .replace(/[-/\\^$*+?.()[\]{}/]/gu, '\\$&') // escape all caracters
     const regex = new RegExp(regexEscaped, 'gim') // build regex
-    const match = regex.exec(textNoComments) // match regex on html text
+    const match = regex.exec(textNoTrailing) // match regex on html text
 
     comment.position = match.index // return regex position for ordering comments
     comment.quotedContentCleaned = quotedContentCleaned
   })
+
+  // Set options
+  // `highlight` example uses `highlight.js`
+  marked.setOptions({
+    renderer: new marked.Renderer(),
+    'baseUrl': null,
+    'breaks': false,
+    'gfm': false,
+    'headerIds': false,
+    'headerPrefix': '',
+    'highlight': null,
+    'mangle': true,
+    'pedantic': false,
+    'sanitize': false,
+    'sanitizer': null,
+    'silent': false,
+    'smartLists': false,
+    'smartypants': false,
+    'xhtml': false
+  })
+
+  // Compile
+  const textHTML = marked(textNoComments) // convert markdown to HTML
+
   await fsPromises.writeFile(
     './data/data.json',
     JSON.stringify({
       comments: Array.from(resolvedComments),
-      text: textNoComments.concat('\n') // add new line to end content
+      textHTML
     }),
     'utf-8'
   )
