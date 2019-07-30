@@ -44,6 +44,13 @@ export default {
     /*
      ** You can extend webpack config here
      */
+    optimization: {
+      splitChunks: {
+        minChunks: 1,
+        maxAsyncRequests: 1,
+        maxInitialRequests: 1
+      }
+    },
     extend (config, ctx) {
       config.resolve.alias.vue = 'vue/dist/vue.common'
     }

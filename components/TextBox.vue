@@ -30,6 +30,7 @@ export default {
   },
   data () {
     return {
+      firstCommentClick: true
     }
   },
   computed: {
@@ -50,7 +51,11 @@ export default {
           .forEach((line) => {
             const escapedline = line.replace(/[-/\\^$*+?.()[\]{}]/gu, '\\$&')
             const regex = new RegExp(escapedline, 'ui') // build regex
-            htmlOutput = htmlOutput.replace(regex, `<span data-cmntid="${id}" @click="hightlightClickEvent" :class="[selectedComment === ${id}? 'highlight': 'highlight-ligth']">$&</span>`) // find and replace with higlights
+            htmlOutput = htmlOutput.replace(regex, `
+              <span data-cmntid="${id}" @click="hightlightClickEvent" :class="[selectedComment === ${id}? 'highlight': 'highlight-ligth']">
+              $& 
+              ${id < 1 ? `<span v-if="firstCommentClick" class="click-anima"/>` : ``}
+              </span>`) // find and replace with higlights
           })
       })
       // htmlOutput = htmlOutput.replace(/^(.*)(\r\n|\r|\n)/gmiu, '<div class="div-p">$&</div>')
@@ -59,6 +64,8 @@ export default {
   },
   watch: {
     selectedComment () {
+      if (this.firstCommentClick) { this.firstCommentClick = false }
+
       // watch selected comment to change, scrool comment to screen
       const el = this.$el.querySelector(`span[data-cmntid="${this.selectedComment}"]`)
       el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
@@ -66,6 +73,7 @@ export default {
   },
   methods: {
     hightlightClickEvent (event) {
+      if (this.firstCommentClick) { this.firstCommentClick = false }
       // click envents on comments
       // change seleceted comment, scroll comment to screen
       const cmntid = +event.target.dataset.cmntid // get comment id from span data-id
@@ -86,13 +94,37 @@ export default {
   position: relative;
 }
 .highlight {
-    display: inline;
-    font-weight: bolder;
-    background-color: rgba($dusk,1);
+  display: inline;
+  font-weight: bolder;
+  background-color: rgba($dusk, 1);
 }
 .highlight-ligth {
-    display: inline;
-    font-weight: bolder;
-    background-color: rgba($dusk,0.3);
+  position: relative;
+  display: inline;
+  font-weight: bolder;
+  background-color: rgba($dusk, 0.3);
+  cursor: pointer;
+}
+.click-anima {
+  z-index: -100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  // margin: 100px auto;
+  background-color: #333;
+  border-radius: 100%;
+  animation: scaleout 1s infinite ease-in-out;
+}
+
+@keyframes scaleout {
+  0% {
+    transform: translate(-20px, -20px) scale(0);
+  }
+  100% {
+    transform: translate(-20px, -20px) scale(1.2);
+    opacity: 0.2;
+  }
 }
 </style>
