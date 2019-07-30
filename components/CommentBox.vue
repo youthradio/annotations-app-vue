@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import scrollIntoView from 'scroll-into-view-if-needed'
+
 export default {
   name: 'CommentBox',
   components: {
@@ -38,7 +40,10 @@ export default {
 
   },
   watch: {
-
+    isSelected () {
+      // watch selected comment to change, scrool comment to screen
+      scrollIntoView(this.$el, { behavior: 'smooth', block: 'center', inline: 'center', scrollMode: 'if-needed' })
+    }
   },
   methods: {
     clickEvent () {
@@ -63,6 +68,7 @@ export default {
   margin-left: 1.5em;
   margin-right: 1.5em;
   font-size: $scale / 2 * 1rem;
+  z-index: 200;
   @media screen and (min-width: $responsiveWidth) {
     max-width: 18em;
     margin-top: auto;
@@ -76,5 +82,6 @@ export default {
 }
 .unselected {
   transition: all 300ms;
+  opacity: 0.2;
 }
 </style>

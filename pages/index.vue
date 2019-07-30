@@ -25,13 +25,6 @@
         />
       </div>
     </div>
-    <div
-      role="menu"
-      class="arrows-flex"
-    >
-      <span class="icon-arrow-left arrow pulse" />
-      <span class="icon-arrow-right arrow pulse" />
-    </div>
   </div>
 </template>
 
@@ -94,12 +87,19 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  position: relative;
+}
+.a-text {
+  order: 1;
+  @media screen and (min-width: $responsiveWidth) {
+    order: 0;
+  }
 }
 .side {
   display: flex;
   flex-direction: column;
   position: sticky;
-  bottom: 0px;
+  top: 0px;
   height: 30vh;
   overflow-y: scroll;
   background: white;
@@ -110,11 +110,11 @@ export default {
     overflow-y: inherit;
     background: inherit;
   }
-  header{
+  header {
     position: sticky;
-    top:0px;
+    top: 0px;
     background-color: white;
-    z-index: 1000;
+    z-index: 100;
   }
 }
 .arrows-flex {

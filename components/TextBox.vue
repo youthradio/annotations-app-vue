@@ -6,6 +6,7 @@
 
 <script>
 import VRuntimeTemplate from 'v-runtime-template'
+import scrollIntoView from 'scroll-into-view-if-needed'
 
 export default {
   name: 'TextBox',
@@ -68,7 +69,7 @@ export default {
 
       // watch selected comment to change, scrool comment to screen
       const el = this.$el.querySelector(`span[data-cmntid="${this.selectedComment}"]`)
-      el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+      scrollIntoView(el, { behavior: 'smooth', block: 'center', inline: 'center', scrollMode: 'if-needed' })
     }
   },
   methods: {
@@ -77,7 +78,7 @@ export default {
       // click envents on comments
       // change seleceted comment, scroll comment to screen
       const cmntid = +event.target.dataset.cmntid // get comment id from span data-id
-      event.target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+      scrollIntoView(event.target, { behavior: 'smooth', block: 'center', inline: 'center', scrollMode: 'if-needed' })
       this.$root.$emit('activeComment', {
         commentId: +cmntid
       })
