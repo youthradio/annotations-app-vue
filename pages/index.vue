@@ -5,7 +5,6 @@
         <TextBox
           class="textbox"
           :comments-data="commentsData"
-          :text-data="textData"
           :text-html="textHTML"
           :selected-comment="selectedComment"
         />

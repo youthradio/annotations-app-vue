@@ -1,5 +1,7 @@
 $baseFont: 'Assistant', sans-serif;
 $baseFontHeaders: 'Roboto Mono', sans-serif;
+$header4FontFamily: 'Roboto Mono', sans-serif;
+$header3FontFamily: 'Days Sans', sans-serif;
 $black: #2E2E2E;
 $green: #00EBAB;
 $white: #FFFFFF;
@@ -8,6 +10,7 @@ $blue: #03334a;
 $blue-button: #05e3f5;
 $sky-blue: #00cec3;
 $red: #FE5A59;
+$dusk: #f7b589;
 
 // Typesetting variables. Edit here or override in main file prior to import of this.
 
@@ -20,3 +23,4 @@ $leading: $baseLineHeight * 1rem !default;
 $scale: 1.414 !default;
 
 $responsiveWidth: 64em;
+

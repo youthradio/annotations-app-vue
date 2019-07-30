@@ -71,7 +71,7 @@ export default {
 }
 .selected {
   transform: translate(-1em, -1em);
-  box-shadow: 2px 2px 5px black;
+  box-shadow: 2px 2px 5px $dusk;
   transition: all 300ms;
 }
 .unselected {

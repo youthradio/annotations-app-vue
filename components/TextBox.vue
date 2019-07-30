@@ -41,7 +41,6 @@ export default {
       // const tags = Array.from(matchAll(result, /{([^}]+)\}/g)) // match all contetnt between {}
 
       // const regex = result.map(e => e.trim()).join('|')
-      console.log(htmlOutput)
       this.commentsData.map((comment, id) => {
         const quotedContent = comment.quotedContentCleaned
         // loop over comment matching selection
@@ -81,17 +80,19 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+@import '~@/css/vars';
+
 .a-text {
   position: relative;
 }
 .highlight {
     display: inline;
     font-weight: bolder;
-    background-color: rgba(255, 255, 0, 1);
+    background-color: rgba($dusk,1);
 }
 .highlight-ligth {
     display: inline;
     font-weight: bolder;
-    background-color: rgba(255, 255, 0, 0.3);
+    background-color: rgba($dusk,0.3);
 }
 </style>

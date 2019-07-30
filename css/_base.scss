@@ -15,7 +15,30 @@ html {
   //   font-size: 1.2 * $baseFontSize / 22 * 100%;
   // }
   font-size: calc(12px + 1vw);
+}
+h3 {
+  font-weight: 900;
+  font-family: $header3FontFamily;
+  letter-spacing: 1.84px;
+  text-transform: uppercase;
+  color: $black;
+}
 
+h4 {
+  font-weight: 600;
+  font-family: $header4FontFamily;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: $green;
+}
+a {
+  color: #2e2e2e;
+  border-bottom: 2px solid $green;
+  vertical-align: baseline;
+  text-decoration: none;
+}
+a:hover {
+  background-color: $green;
 }
 
 html {
