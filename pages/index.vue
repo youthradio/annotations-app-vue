@@ -35,6 +35,10 @@ import CommentBox from '~/components/CommentBox'
 import TextBox from '~/components/TextBox'
 import COMMENTS_DATA from '~/data/data.json'
 
+if (process.client) {
+  require('~/node_modules/iframe-position-fixed-polyfill/src/polyfill.js')
+}
+
 export default {
   components: {
     CommentBox,
