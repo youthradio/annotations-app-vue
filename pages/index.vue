@@ -35,10 +35,6 @@ import CommentBox from '~/components/CommentBox'
 import TextBox from '~/components/TextBox'
 import COMMENTS_DATA from '~/data/data.json'
 
-if (process.client) {
-  require('~/node_modules/iframe-position-fixed-polyfill/src/polyfill.js')
-}
-
 export default {
   components: {
     CommentBox,
@@ -58,6 +54,24 @@ export default {
     }
   },
   mounted () {
+    window.addEventListener('message', (e) => {
+      // Check that message being passed is the documentHeight
+      if ((typeof e.data === 'string') &&
+          (e.data.includes('iframeTop:') &&
+          (e.data.includes('scrollY:')))) {
+        const values = e.data.split(',')
+
+        const iframeTop = parseFloat(values[0].split('iframeTop:')[1])
+        const scrollY = parseFloat(values[1].split('scrollY:')[1])
+        const commentsBox = this.$el.querySelector('.side')
+        const totalHeight = this.$el.getBoundingClientRect().height
+        const commentsBoxHeight = commentsBox.getBoundingClientRect().height
+
+        if (scrollY > iframeTop && scrollY < iframeTop + totalHeight - commentsBoxHeight) {
+          commentsBox.style.top = (scrollY - iframeTop) + 'px'
+        }
+      }
+    }, false)
     this.$root.$on('activeComment', this.activeComment)
 
     const elementRoot = this.$root.$el
