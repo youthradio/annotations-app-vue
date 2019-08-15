@@ -51,10 +51,10 @@ export default {
         regexEscaped.split('\\n')
           .forEach((line) => {
             const escapedline = line.replace(/[-/\\^$*+?.()[\]{}]/gu, '\\$&')
-            const regex = new RegExp(escapedline, 'ui') // build regex
+            const regex = new RegExp(escapedline, 'i') // build regex
             htmlOutput = htmlOutput.replace(regex, `
               <span data-cmntid="${id}" @click="hightlightClickEvent" :class="[selectedComment === ${id}? 'highlight': 'highlight-ligth']">
-              $& 
+              $&
               ${id < 1 ? `<span v-if="firstCommentClick" class="click-anima"/>` : ``}
               </span>`) // find and replace with higlights
           })

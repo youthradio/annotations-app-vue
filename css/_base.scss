@@ -61,9 +61,6 @@ p {
   line-height: $leading;
   margin-top: 0;
   margin-bottom: 0;
-  & + p {
-    text-indent: 1.5em;
-  }
 }
 
 .div-p {

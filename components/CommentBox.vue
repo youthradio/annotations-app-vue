@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['box', isSelected? 'selected' : 'unselected' ]"
+    :class="['comment-box', isSelected? 'selected' : 'unselected' ]"
     @click="clickEvent"
   >
     {{ commentText }}
@@ -59,7 +59,7 @@ export default {
 <style lang="scss">
 @import '~@/css/vars';
 
-.box {
+.comment-box {
   border: 1px solid rgb(0, 0, 0);
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -68,7 +68,6 @@ export default {
   margin-left: 1.5em;
   margin-right: 1.5em;
   font-size: $scale / 2 * 1rem;
-  z-index: 200;
   @media screen and (min-width: $responsiveWidth) {
     max-width: 18em;
     margin-top: auto;
@@ -79,9 +78,11 @@ export default {
   transform: translate(-1em, -1em);
   box-shadow: 2px 2px 5px $dusk;
   transition: all 300ms;
+  z-index: 200;
 }
 .unselected {
   transition: all 300ms;
   opacity: 0.2;
+  z-index: 0;
 }
 </style>
