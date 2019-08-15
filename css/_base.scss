@@ -60,16 +60,13 @@ article {
 p {
   line-height: $leading;
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 1em;
 }
 
 .div-p {
   line-height: $leading;
   margin-top: 0;
-  margin-bottom: 0;
-  & + .div-p {
-    text-indent: 1.5em;
-  }
+  margin-bottom: 1em;
 }
 .div-p {
   display: block;
