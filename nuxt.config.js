@@ -1,3 +1,5 @@
+import docsList from './scripts/DocsList.js'
+
 export default {
   mode: 'universal',
   /*
@@ -54,5 +56,9 @@ export default {
     extend (config, ctx) {
       config.resolve.alias.vue = 'vue/dist/vue.common'
     }
+  },
+  // Generate dynamic routes
+  generate: {
+    routes: docsList.map(e => `/markup/${e.slug}`)
   }
 }
