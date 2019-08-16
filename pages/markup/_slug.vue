@@ -66,22 +66,31 @@ export default {
     }
   },
   mounted () {
+    const commentsBox = this.$el.querySelector('.side')
+    const commentsBoxHeight = commentsBox.getBoundingClientRect().height
+    const totalHeight = this.$el.getBoundingClientRect().height
+
     window.addEventListener('message', (e) => {
       // Check that message being passed is the documentHeight
-      if ((typeof e.data === 'string') &&
+
+      if (window.innerWidth < 800) {
+        if ((typeof e.data === 'string') &&
           (e.data.includes('iframeTop:') &&
           (e.data.includes('scrollY:')))) {
-        const values = e.data.split(',')
+          const values = e.data.split(',')
 
-        const iframeTop = parseFloat(values[0].split('iframeTop:')[1])
-        const scrollY = parseFloat(values[1].split('scrollY:')[1])
-        const commentsBox = this.$el.querySelector('.side')
-        const totalHeight = this.$el.getBoundingClientRect().height
-        const commentsBoxHeight = commentsBox.getBoundingClientRect().height
+          // const iframeTop = parseFloat(values[0].split('iframeTop:')[1])
+          const scrollY = parseFloat(values[1].split('scrollY:')[1])
 
-        if (scrollY > iframeTop && scrollY < iframeTop + totalHeight - commentsBoxHeight) {
-          commentsBox.style.top = (scrollY - iframeTop + 68) + 'px'
+          if (scrollY > commentsBoxHeight && scrollY <= (totalHeight - 2 * commentsBoxHeight)) {
+            commentsBox.style.position = 'fixed'
+            commentsBox.style.top = `${scrollY}px`
+          } else {
+            commentsBox.style.position = 'unset'
+          }
         }
+      } else {
+        commentsBox.style.top = 'unset'
       }
     }, false)
     this.$root.$on('activeComment', this.activeComment)
@@ -115,21 +124,24 @@ export default {
 
 .container {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   position: relative;
+  flex-wrap: wrap;
+  @media screen and (min-width: $responsiveWidth) {
+    flex-wrap: nowrap;
+  }
 }
 .side {
   display: flex;
   flex-direction: column;
-  position: sticky;
-  bottom: 0px;
   height: 20vh;
+  bottom: 0px;
   overflow-y: scroll;
   background: white;
   @media screen and (min-width: $responsiveWidth) {
     position: inherit;
     bottom: inherit;
+    top: inherit;
     height: inherit;
     overflow-y: inherit;
     background: inherit;
