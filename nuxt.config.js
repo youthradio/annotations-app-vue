@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs'
 import docsList from './scripts/DocsList.js'
 
 export default {
@@ -60,5 +61,11 @@ export default {
   // Generate dynamic routes
   generate: {
     routes: docsList.map(e => `/markup/${e.slug}`)
+  },
+  server: {
+    https: {
+      key: readFileSync(`${process.env.HOME}/https/localhost.key`),
+      cert: readFileSync(`${process.env.HOME}/https/localhost.crt`)
+    }
   }
 }
