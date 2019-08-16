@@ -1,6 +1,7 @@
 <template>
   <div
     :class="['comment-box', isSelected? 'selected' : 'unselected' ]"
+    :style="boxShadowColor"
     @click="clickEvent"
   >
     {{ commentText }}
@@ -26,6 +27,11 @@ export default {
       default: null,
       require: true
     },
+    featureColor: {
+      type: String,
+      default: null,
+      require: true
+    },
     isSelected: {
       type: Boolean,
       default: false,
@@ -37,7 +43,11 @@ export default {
     }
   },
   computed: {
-
+    boxShadowColor () {
+      return {
+        'box-shadow': `2px 2px 5px ${this.featureColor}`
+      }
+    }
   },
   watch: {
     isSelected () {

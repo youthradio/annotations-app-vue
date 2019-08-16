@@ -24,6 +24,11 @@ export default {
       default: null,
       require: true
     },
+    featureColor: {
+      type: String,
+      default: null,
+      require: true
+    },
     selectedComment: {
       type: Number,
       default: null
@@ -53,7 +58,9 @@ export default {
             const escapedline = line.replace(/[-/\\^$*+?.()[\]{}]/gu, '\\$&')
             const regex = new RegExp(escapedline, 'i') // build regex
             htmlOutput = htmlOutput.replace(regex, `
-              <span data-cmntid="${id}" @click="hightlightClickEvent" :class="[selectedComment === ${id}? 'highlight': 'highlight-ligth']">
+              <span data-cmntid="${id}" @click="hightlightClickEvent"
+              :class="[selectedComment === ${id}? 'highlight': 'highlight-ligth']"
+              :style="[selectedComment === ${id}? hightLightColor('FF') :hightLightColor('50')]">
               $&
               ${id < 1 ? `<span v-if="firstCommentClick" class="click-anima"/>` : ``}
               </span>`) // find and replace with higlights
@@ -73,6 +80,11 @@ export default {
     }
   },
   methods: {
+    hightLightColor (value) {
+      return {
+        'background-color': `${this.featureColor}${value}`
+      }
+    },
     hightlightClickEvent (event) {
       if (this.firstCommentClick) { this.firstCommentClick = false }
       // click envents on comments

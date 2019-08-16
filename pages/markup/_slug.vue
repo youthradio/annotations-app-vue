@@ -6,6 +6,7 @@
           class="textbox"
           :comments-data="commentsData"
           :text-html="textHTML"
+          :feature-color="textColor"
           :selected-comment="selectedComment"
         />
       </keep-alive>
@@ -20,6 +21,7 @@
           v-for="(comment,ind) in commentsData"
           :key="`comment-item-${ind}`"
           :comment-id="ind"
+          :feature-color="textColor"
           :comment-text="comment.content"
           :is-selected="selectedComment === ind"
         />

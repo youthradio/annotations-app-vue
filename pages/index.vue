@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Home page</h1>
+    <h1>Mark-ups Docs</h1>
     <ul>
       <li
         v-for="markup in markupsData"

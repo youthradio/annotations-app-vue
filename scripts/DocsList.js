@@ -1,7 +1,7 @@
 export default
 [ {
   'id': '14eC0bwOjJ4Cp6OIm8oGD9YwZYZbEx-u_Gi_-2KIMUzk',
-  'textColor': '69e4f5',
+  'textColor': '#69e4f5',
   'title': 'Mark-Up: News',
   'slug': 'mark-up-news'
 },
