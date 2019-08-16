@@ -38,6 +38,11 @@ import TextBox from '~/components/TextBox'
 import MARKUPS_DATA from '~/data/data.json'
 
 export default {
+  head () {
+    return {
+      title: this.markupdata.title
+    }
+  },
   components: {
     CommentBox,
     TextBox
