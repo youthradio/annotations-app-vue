@@ -7,7 +7,7 @@ export default {
    ** Headers of the page
    */
   router: {
-    base: '/annotations-app-vue/'
+    base: '/statics/markups-app'
   },
   head: {
     title: process.env.npm_package_name || '',

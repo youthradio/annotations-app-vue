@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="container">
+    <div
+      ref="container"
+      class="container"
+    >
       <keep-alive>
         <TextBox
           class="textbox"
@@ -11,6 +14,7 @@
         />
       </keep-alive>
       <div
+        ref="side"
         class="side"
         role="comments"
       >
@@ -36,6 +40,7 @@ import ResizeObserver from 'resize-observer-polyfill'
 import CommentBox from '~/components/CommentBox'
 import TextBox from '~/components/TextBox'
 import MARKUPS_DATA from '~/data/data.json'
+import { ViewportObservabler, clamp } from '~/util/ViewportObservabler.js'
 
 export default {
   head () {
@@ -71,33 +76,10 @@ export default {
     }
   },
   mounted () {
-    const commentsBox = this.$el.querySelector('.side')
-    const commentsBoxHeight = commentsBox.getBoundingClientRect().height
-    const totalHeight = this.$el.getBoundingClientRect().height
+    const commentsBox = this.$refs.side
+    const container = this.$refs.container
+    this.makeSticky(container, commentsBox, { interval: 0, transition: 75, offset: 68 })
 
-    window.addEventListener('message', (e) => {
-      // Check that message being passed is the documentHeight
-
-      if (window.innerWidth < 800) {
-        if ((typeof e.data === 'string') &&
-          (e.data.includes('iframeTop:') &&
-          (e.data.includes('scrollY:')))) {
-          const values = e.data.split(',')
-
-          // const iframeTop = parseFloat(values[0].split('iframeTop:')[1])
-          const scrollY = parseFloat(values[1].split('scrollY:')[1])
-
-          if (scrollY > commentsBoxHeight && scrollY <= (totalHeight - 2 * commentsBoxHeight)) {
-            commentsBox.style.position = 'fixed'
-            commentsBox.style.top = `${scrollY}px`
-          } else {
-            commentsBox.style.position = 'unset'
-          }
-        }
-      } else {
-        commentsBox.style.top = 'unset'
-      }
-    }, false)
     this.$root.$on('activeComment', this.activeComment)
 
     const elementRoot = this.$root.$el
@@ -117,6 +99,24 @@ export default {
     activeComment ({ commentId }) {
       this.selectedComment = commentId
       console.log('activeIII', commentId)
+    },
+    makeSticky (context, element, { transition = 75, offset = 0, interval = 0 }) {
+      element.style.transition = `top ${transition}ms ease-in`
+      element.style.position = 'absolute'
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 800) {
+          element.style.position = 'absolute'
+        } else {
+          element.style.position = 'unset'
+        }
+      })
+
+      const observabler = new ViewportObservabler(([top, bottom]) => {
+        const rc = context.getBoundingClientRect()
+        const rs = element.getBoundingClientRect()
+        element.style.top = clamp(0, rc.height - rs.height, top - rc.top + offset) + 'px'
+      }, { interval })
+      return () => { observabler.disconnect() }
     }
   }
 }
