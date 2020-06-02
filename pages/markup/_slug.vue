@@ -102,14 +102,15 @@ export default {
     },
     makeSticky (context, element, { transition = 75, offset = 0, interval = 0 }) {
       element.style.transition = `top ${transition}ms ease-in`
-      element.style.position = 'absolute'
-      window.addEventListener('resize', () => {
+      const update = () => {
         if (window.innerWidth < 800) {
           element.style.position = 'absolute'
         } else {
           element.style.position = 'unset'
         }
-      })
+      }
+      window.addEventListener('resize', update)
+      update()
 
       const observabler = new ViewportObservabler(([top, bottom]) => {
         const rc = context.getBoundingClientRect()
